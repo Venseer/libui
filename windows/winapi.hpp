@@ -16,7 +16,7 @@
 // get Windows version right; right now Windows Vista
 // unless otherwise stated, all values from Microsoft's sdkddkver.h
 // TODO is all of this necessary? how is NTDDI_VERSION used?
-// TODO plaform update sp2
+// TODO platform update sp2
 #define WINVER			0x0600	/* from Microsoft's winnls.h */
 #define _WIN32_WINNT		0x0600
 #define _WIN32_WINDOWS	0x0600	/* from Microsoft's pdh.h */
@@ -37,11 +37,14 @@
 #ifndef RC_INVOKED
 #include <commctrl.h>
 #include <uxtheme.h>
+#include <vsstyle.h>
+#include <vssym32.h>
 #include <windowsx.h>
 #include <shobjidl.h>
 #include <d2d1.h>
 #include <d2d1helper.h>
 #include <dwrite.h>
+#include <wincodec.h>
 
 #include <stdint.h>
 #include <string.h>
@@ -57,4 +60,5 @@
 #include <unordered_map>
 #include <sstream>
 #include <functional>
+#include <utility>
 #endif

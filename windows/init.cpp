@@ -22,7 +22,7 @@ static const char *initerr(const char *message, const WCHAR *label, DWORD value)
 
 	hassysmsg = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, value, 0, (LPWSTR) (&sysmsg), 0, NULL) != 0;
 	if (!hassysmsg)
-		sysmsg = L"";
+		sysmsg = (WCHAR *) L"";			// TODO
 	wmessage = toUTF16(message + 1);
 	wout = strf(L"-error initializing libui: %s; code %I32d (0x%08I32X) %s",
 		wmessage,
@@ -131,11 +131,17 @@ const char *uiInit(uiInitOptions *o)
 	if (registerD2DScratchClass(hDefaultIcon, hDefaultCursor) == 0)
 		return ieLastErr("initializing D2D scratch window class");
 
+	hr = uiprivInitImage();
+	if (hr != S_OK)
+		return ieHRESULT("initializing WIC", hr);
+
 	return NULL;
 }
 
 void uiUninit(void)
 {
+	uiprivUninitTimers();
+	uiprivUninitImage();
 	uninitMenus();
 	unregisterD2DScratchClass();
 	unregisterMessageFilter();
